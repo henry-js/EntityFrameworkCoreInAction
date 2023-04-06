@@ -1,0 +1,16 @@
+Books: {
+  shape: sql_table
+  BookId: int {constraint: primary_key}
+  Title: string
+  Description: string
+}
+
+PriceOffers: {
+  shape: sql_table
+  PriceOfferId: int {constraint: primary_key}
+  NewPrice: money
+  PromotionalText: string
+  BookId: int {constraint: foreign_key}
+}
+
+Books.BookId -> PriceOffers.BookId: One-to-zero-or-one relationship
