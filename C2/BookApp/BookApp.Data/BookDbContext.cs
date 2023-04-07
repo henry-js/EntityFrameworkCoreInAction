@@ -1,13 +1,15 @@
 using BookApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
+namespace BookApp.Data;
 public class BookDbContext : DbContext
 {
     private const string ConnectionString = @"Server=(localdb)\mssqllocaldb;Database=BookDb;Trusted_Connection=True;";
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Author> Authors { get; set; }
-    public DbSet<PriceOffer> PriceOffers { get; set; }
-    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Book>? Books { get; set; }
+    public DbSet<Author>? Authors { get; set; }
+    public DbSet<PriceOffer>? PriceOffers { get; set; }
+    public DbSet<Tag>? Tags { get; set; }
 
     public BookDbContext(DbContextOptions<BookDbContext> options) : base(options)
     {
@@ -28,5 +30,15 @@ public class BookDbContext : DbContext
         modelBuilder.Entity<Tag>()
             .Property(t => t.TagId).HasMaxLength(40)
             .IsRequired();
+    }
+}
+public class BookDbContextFactory : IDesignTimeDbContextFactory<BookDbContext>
+{
+    public BookDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<BookDbContext>();
+        optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BookDb;Trusted_Connection=True;");
+
+        return new BookDbContext(optionsBuilder.Options);
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace BookApp.Data;
+﻿namespace BookApp.Data;
 public class Book
 {
     public int BookId { get; set; }
